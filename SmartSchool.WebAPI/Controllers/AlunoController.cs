@@ -9,19 +9,32 @@ using AutoMapper;
 
 namespace SmartSchool.WebAPI.Controllers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [ApiController]
-    [Route("api/[controller]")]
+    [ApiVersion("1.0")]
+    [Route("api/v{version:apiVersion}/[controller]")]
     public class AlunoController : ControllerBase
     {
         public readonly IRepository _repo;
         public readonly IMapper _mapper;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="repo"></param>
+        /// <param name="mapper"></param>
         public AlunoController(IRepository repo, IMapper mapper) { 
             _repo = repo;
             _mapper = mapper;
         }
 
         //api/Aluno
+        /// <summary>
+        /// Metodo responsável para retornar todos os alunos.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Get()
         {
@@ -31,6 +44,11 @@ namespace SmartSchool.WebAPI.Controllers
         }
 
         //api/Aluno/1
+        /// <summary>
+        /// Metodo reponsavel par retornar um aluno.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
@@ -41,6 +59,11 @@ namespace SmartSchool.WebAPI.Controllers
         }
 
         //api/Aluno
+        /// <summary>
+        /// /Metodo para inserir um aluno.
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult Post(AlunoRegistrarDto model)
         {
@@ -54,6 +77,12 @@ namespace SmartSchool.WebAPI.Controllers
         }
 
         //api/Aluno
+        /// <summary>
+        /// Metodo para atualizar um aluno.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public IActionResult Put(int id, AlunoRegistrarDto model)
         {
@@ -70,6 +99,12 @@ namespace SmartSchool.WebAPI.Controllers
         }
 
         //api/Aluno
+        /// <summary>
+        /// Metodo para atualizar um aluno.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPatch("{id}")]
         public IActionResult Patch(int id, AlunoRegistrarDto model)
         {
@@ -86,6 +121,11 @@ namespace SmartSchool.WebAPI.Controllers
         }
 
         //api/Aluno
+        /// <summary>
+        /// Metodo para excluir um aluno.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
