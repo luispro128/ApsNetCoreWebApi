@@ -1,4 +1,7 @@
 using SmartSchool.WebAPI.Models;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using SmartSchool.WebAPI.Helpers;
 
 namespace SmartSchool.WebAPI.Data
 {
@@ -9,6 +12,7 @@ namespace SmartSchool.WebAPI.Data
          void Delete<T>(T entity) where T : class;
          bool SaveChanges();
          Aluno[] GetAllAlunos(bool includeProfessor = false);
+         Task<PageList<Aluno>> GetAllAlunosAsync(PageParams pageParams, bool includeProfessor = false);
          Aluno[] GetAllAlunosByDisciplinaId(int id, bool includeProfessor = false);
          Aluno GetAlunoById(int id, bool includeProfessor = false);
          Professor[] GetAllProfessores(bool includeAlunos = false);
