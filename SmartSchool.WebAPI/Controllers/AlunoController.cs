@@ -34,7 +34,7 @@ namespace SmartSchool.WebAPI.Controllers
 
         //api/Aluno
         /// <summary>
-        /// Metodo responsável para retornar todos os alunos.
+        /// Metodo responsável para retornar todos os alunos. Teste
         /// </summary>
         /// <returns></returns>
         [HttpGet]
