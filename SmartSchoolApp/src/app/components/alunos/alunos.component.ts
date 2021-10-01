@@ -1,4 +1,4 @@
-import { Component, OnInit, TemplateRef } from '@angular/core';
+import { Component, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
@@ -17,20 +17,20 @@ import { ProfessorService } from 'src/app/services/professor.service';
   templateUrl: './alunos.component.html',
   styleUrls: ['./alunos.component.css']
 })
-export class AlunosComponent implements OnInit {
+export class AlunosComponent implements OnInit, OnDestroy {
 
-  public modalRef!: BsModalRef;
-  public alunoForm!: FormGroup;
+  public modalRef: BsModalRef;
+  public alunoForm: FormGroup;
   public titulo = 'Alunos';
-  public alunoSelecionado: Aluno = new Aluno;
-  public textSimple!: string;
-  public profsAlunos: Professor[] = [];
+  public alunoSelecionado: Aluno;
+  public textSimple: string;
+  public profsAlunos: Professor[];
 
   private unsubscriber = new Subject();
 
-  public alunos: Aluno[] = [];
-  public aluno: Aluno = new Aluno;
-  public msnDeleteAluno!: string;
+  public alunos: Aluno[];
+  public aluno: Aluno;
+  public msnDeleteAluno: string;
   public modeSave = 'post';
 
   openModal(template: TemplateRef<any>, alunoId: number) {
@@ -95,7 +95,8 @@ export class AlunosComponent implements OnInit {
         this.aluno = {id: this.alunoSelecionado.id, ...this.alunoForm.value};
       }
 
-      this.alunoService[this.modeSave](this.aluno)
+      if (this.modeSave === 'post') {
+        this.alunoService.post(this.aluno)
         .pipe(takeUntil(this.unsubscriber))
         .subscribe(
           () => {
@@ -106,13 +107,37 @@ export class AlunosComponent implements OnInit {
             console.error(error);
           }, () => this.spinner.hide()
         );
+      } else if (this.modeSave === 'put') {
+        this.alunoService.put(this.aluno)
+        .pipe(takeUntil(this.unsubscriber))
+        .subscribe(
+          () => {
+            this.carregarAlunos();
+            this.toastr.success('Aluno salvo com sucesso!');
+          }, (error: any) => {
+            this.toastr.error(`Erro: Aluno não pode ser salvo!`);
+            console.error(error);
+          }, () => this.spinner.hide()
+        );
+      } else if (this.modeSave === 'delete') {
+        this.alunoService.delete(this.aluno.id)
+        .pipe(takeUntil(this.unsubscriber))
+        .subscribe(
+          () => {
+            this.carregarAlunos();
+            this.toastr.success('Aluno salvo com sucesso!');
+          }, (error: any) => {
+            this.toastr.error(`Erro: Aluno não pode ser salvo!`);
+            console.error(error);
+          }, () => this.spinner.hide()
+        );
+      }
 
     }
   }
 
   carregarAlunos() {
     const id = +this.route.snapshot.paramMap.get('id');
-
 
     this.spinner.show();
     this.alunoService.getAll()
