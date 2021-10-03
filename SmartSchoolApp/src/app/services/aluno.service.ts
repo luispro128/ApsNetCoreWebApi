@@ -38,6 +38,14 @@ export class AlunoService {
     return this.http.put(`${this.baseURL}/${aluno.id}`, aluno);
   }
 
+  trocarestado(alunoId: number, ativo: boolean) {
+    return this.http.patch(`${this.baseURL}/${alunoId}/trocarestado`, { estado: ativo });
+  }
+
+  patch(aluno: Aluno) {
+    return this.http.patch(`${this.baseURL}/${aluno.id}`, aluno);
+  }
+
   delete(id: number) {
     return this.http.delete(`${this.baseURL}/${id}`);
   }

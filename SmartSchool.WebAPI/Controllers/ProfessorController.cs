@@ -55,6 +55,20 @@ namespace SmartSchool.WebAPI.Controllers
             return Ok(professor);
         }
 
+        /// <summary>
+        /// Metodo para obter um professor.
+        /// </summary>
+        /// <param name="idAluno"></param>
+        /// <returns></returns>
+        //api/Aluno/1
+        [HttpGet("byaluno/{alunoId}")]
+        public IActionResult GetByAluno(int alunoId)
+        {
+            var professor = _repo.GetProfessorByAluno(alunoId, true);
+            if (professor == null) return BadRequest("Professor nao encontrado.");
+            return Ok(_mapper.Map<IEnumerable<ProfessorDto>>(professor));
+        }
+
         //api/Aluno
         /// <summary>
         /// Metodo para inserir um professor.

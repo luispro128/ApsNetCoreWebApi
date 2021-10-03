@@ -49,6 +49,7 @@ export class AlunosComponent implements OnInit, OnDestroy {
         this.profsAlunos = professores;
         this.modalRef = this.modalService.show(template);
       }, (error: any) => {
+        this.spinner.hide();
         this.toastr.error(`erro: ${error}`);
         console.log(error);
       }, () => this.spinner.hide()
@@ -81,8 +82,26 @@ export class AlunosComponent implements OnInit, OnDestroy {
       id: [0],
       nome: ['', Validators.required],
       sobrenome: ['', Validators.required],
-      telefone: ['', Validators.required]
+      telefone: ['', Validators.required],
+      ativo: []
     });
+  }
+
+  trocarestado(aluno: Aluno) {
+
+      this.alunoService.trocarestado(aluno.id, !aluno.ativo)
+      .pipe(takeUntil(this.unsubscriber))
+      .subscribe(
+        (resp) => {
+          this.carregarAlunos();
+          this.toastr.success('Aluno salvo com sucesso!');
+        }, (error: any) => {
+          this.spinner.hide();
+          this.toastr.error(`Erro: Aluno não pode ser salvo!`);
+          console.error(error);
+        }, () => this.spinner.hide()
+      );
+
   }
 
   saveAluno() {
@@ -103,6 +122,7 @@ export class AlunosComponent implements OnInit, OnDestroy {
             this.carregarAlunos();
             this.toastr.success('Aluno salvo com sucesso!');
           }, (error: any) => {
+            this.spinner.hide();
             this.toastr.error(`Erro: Aluno não pode ser salvo!`);
             console.error(error);
           }, () => this.spinner.hide()
@@ -115,11 +135,25 @@ export class AlunosComponent implements OnInit, OnDestroy {
             this.carregarAlunos();
             this.toastr.success('Aluno salvo com sucesso!');
           }, (error: any) => {
+            this.spinner.hide();
             this.toastr.error(`Erro: Aluno não pode ser salvo!`);
             console.error(error);
           }, () => this.spinner.hide()
         );
-      } else if (this.modeSave === 'delete') {
+      } else if (this.modeSave === 'patch') {
+      this.alunoService.patch(this.aluno)
+      .pipe(takeUntil(this.unsubscriber))
+      .subscribe(
+        () => {
+          this.carregarAlunos();
+          this.toastr.success('Aluno salvo com sucesso!');
+        }, (error: any) => {
+          this.spinner.hide();
+          this.toastr.error(`Erro: Aluno não pode ser salvo!`);
+          console.error(error);
+        }, () => this.spinner.hide()
+      );
+    }else if (this.modeSave === 'delete') {
         this.alunoService.delete(this.aluno.id)
         .pipe(takeUntil(this.unsubscriber))
         .subscribe(
@@ -127,6 +161,7 @@ export class AlunosComponent implements OnInit, OnDestroy {
             this.carregarAlunos();
             this.toastr.success('Aluno salvo com sucesso!');
           }, (error: any) => {
+            this.spinner.hide();
             this.toastr.error(`Erro: Aluno não pode ser salvo!`);
             console.error(error);
           }, () => this.spinner.hide()
@@ -146,21 +181,32 @@ export class AlunosComponent implements OnInit, OnDestroy {
         this.alunos = alunos;
 
         if (id > 0) {
-          this.alunoSelect(this.alunos.find(aluno => aluno.id === id));
+          this.alunoSelect(id);
         }
 
         this.toastr.success('Alunos foram carregado com Sucesso!');
       }, (error: any) => {
+        this.spinner.hide();
         this.toastr.error('Alunos não carregados!');
         console.log(error);
       }, () => this.spinner.hide()
     );
   }
 
-  alunoSelect(aluno: Aluno) {
-    this.modeSave = 'put';
-    this.alunoSelecionado = aluno;
-    this.alunoForm.patchValue(aluno);
+  alunoSelect(alunoId: number) {
+    this.modeSave = 'patch';
+    this.alunoService.getById(alunoId).subscribe(
+      (alunoReturn) => {
+        this.alunoSelecionado = alunoReturn;
+        this.alunoForm.patchValue(this.alunoSelecionado);
+      },
+      (error) => {
+        this.spinner.hide();
+        this.toastr.error('Alunos não carregados!');
+        console.log(error);
+      },
+      () => this.spinner.hide()
+    );
   }
 
   voltar() {

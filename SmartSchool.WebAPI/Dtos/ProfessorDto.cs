@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+
 namespace SmartSchool.WebAPI.Dtos
 {
     public class ProfessorDto
@@ -9,5 +11,6 @@ namespace SmartSchool.WebAPI.Dtos
         public string Telefone { get; set; }
         public DateTime DataIni { get; set; }
         public bool Ativo { get; set; }
+        public IEnumerable<DisciplinaDto> Disciplicas { get; set; }
     }
 }

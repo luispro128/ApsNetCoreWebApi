@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 import { AlunosComponent } from './components/alunos/alunos.component';
+import { ProfessoresAlunosComponent } from './components/alunos/professores-alunos/professores-alunos.component';
 import { ProfessoresComponent } from './components/professores/professores.component';
 import { PerfilComponent } from './components/perfil/perfil.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
@@ -25,6 +26,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AppComponent,
     AlunosComponent,
     ProfessoresComponent,
+    ProfessoresAlunosComponent,
     PerfilComponent,
     DashboardComponent,
     NavComponent,
