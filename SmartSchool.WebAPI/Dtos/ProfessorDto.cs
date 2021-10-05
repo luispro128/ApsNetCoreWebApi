@@ -11,6 +11,6 @@ namespace SmartSchool.WebAPI.Dtos
         public string Telefone { get; set; }
         public DateTime DataIni { get; set; }
         public bool Ativo { get; set; }
-        public IEnumerable<DisciplinaDto> Disciplicas { get; set; }
+        public IEnumerable<DisciplinaDto> Disciplinas { get; set; }
     }
 }

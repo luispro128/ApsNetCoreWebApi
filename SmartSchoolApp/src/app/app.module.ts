@@ -15,6 +15,8 @@ import { NavComponent } from './components/shared/nav/nav.component';
 import { TituloComponent } from './components/shared/titulo/titulo.component';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { AlunosProfessoresComponent } from './components/professores/alunos-professores/alunos-professores.component';
+import { ProfessorDetalheComponent } from './components/professores/professor-detalhe/professor-detalhe.component';
 
 import { ToastrModule} from 'ngx-toastr';
 import { NgxSpinnerModule} from 'ngx-spinner';
@@ -26,7 +28,9 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     AppComponent,
     AlunosComponent,
     ProfessoresComponent,
+    AlunosProfessoresComponent,
     ProfessoresAlunosComponent,
+    ProfessorDetalheComponent,
     PerfilComponent,
     DashboardComponent,
     NavComponent,

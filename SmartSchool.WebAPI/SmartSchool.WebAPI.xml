@@ -22,6 +22,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:SmartSchool.WebAPI.Controllers.AlunoController.GetByDisciplinaId(System.Int32)">
+            <summary>
+            Metodo responsável para retornar todos os alunos. Teste
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SmartSchool.WebAPI.Controllers.AlunoController.GetById(System.Int32)">
             <summary>
             Metodo reponsavel par retornar um aluno.

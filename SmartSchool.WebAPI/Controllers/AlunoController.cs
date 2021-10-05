@@ -46,6 +46,17 @@ namespace SmartSchool.WebAPI.Controllers
             return Ok(alunosResult);
         }
 
+        /// <summary>
+        /// Metodo responsável para retornar todos os alunos. Teste
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("ByDisciplina/{id}")]
+        public async Task<IActionResult> GetByDisciplinaId(int id)
+        {
+            var result = await _repo.GetAllAlunosByDisciplinaIdAsync(id, false);
+            return Ok(result);
+        }
+
         //api/Aluno/1
         /// <summary>
         /// Metodo reponsavel par retornar um aluno.

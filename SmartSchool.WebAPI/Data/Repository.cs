@@ -70,7 +70,7 @@ namespace SmartSchool.WebAPI.Data
             return await PageList<Aluno>.CreateAsync(query, pageParams.PageNumber, pageParams.PageSize);
         }
          
-        public Aluno[] GetAllAlunosByDisciplinaId(int id, bool includeProfessor = false){
+        public async Task<Aluno[]> GetAllAlunosByDisciplinaIdAsync(int id, bool includeProfessor = false){
             IQueryable<Aluno> query = _context.Alunos;
             if(includeProfessor){
                 query = query.Include(a => a.AlunosDisciplinas)
@@ -80,7 +80,7 @@ namespace SmartSchool.WebAPI.Data
             query = query.AsNoTracking()
                 .OrderBy(a => a.Id)
                 .Where(a => a.AlunosDisciplinas.Any(d => d.DisciplinaId == id));
-            return query.ToArray();
+            return await query.ToArrayAsync();
         }
          
         public Aluno GetAlunoById(int id, bool includeProfessor = false){
