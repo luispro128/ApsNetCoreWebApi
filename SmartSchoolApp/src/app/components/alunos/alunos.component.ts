@@ -11,6 +11,9 @@ import { PaginatedResult, Pagination } from 'src/app/models/Pagination';
 import { Professor } from 'src/app/models/Professor';
 import { AlunoService } from 'src/app/services/aluno.service';
 import { ProfessorService } from 'src/app/services/professor.service';
+import { PageChangedEvent } from 'ngx-bootstrap/pagination';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { PagesModel } from 'ngx-bootstrap/pagination';
 
 @Component({
   selector: 'app-alunos',
@@ -32,6 +35,7 @@ export class AlunosComponent implements OnInit, OnDestroy {
   public aluno: Aluno;
   public msnDeleteAluno: string;
   public modeSave = 'post';
+  pagination: Pagination;
 
   openModal(template: TemplateRef<any>, alunoId: number) {
     this.professoresAlunos(template, alunoId);
@@ -69,6 +73,7 @@ export class AlunosComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.pagination = { currentPage: 1, itemsPerPage: 4 } as Pagination;
     this.carregarAlunos();
   }
 
@@ -175,10 +180,11 @@ export class AlunosComponent implements OnInit, OnDestroy {
     const id = +this.route.snapshot.paramMap.get('id');
 
     this.spinner.show();
-    this.alunoService.getAll()
+    this.alunoService.getAll(this.pagination.currentPage, this.pagination.itemsPerPage)
       .pipe(takeUntil(this.unsubscriber))
-      .subscribe((alunos: Aluno[]) => {
-        this.alunos = alunos;
+      .subscribe((alunos: PaginatedResult<Aluno[]>) => {
+        this.alunos = alunos.result;
+        this.pagination = alunos.pagination;
 
         if (id > 0) {
           this.alunoSelect(id);
@@ -191,6 +197,11 @@ export class AlunosComponent implements OnInit, OnDestroy {
         console.log(error);
       }, () => this.spinner.hide()
     );
+  }
+
+  pageChanged(event: PageChangedEvent): void {
+    this.pagination.currentPage = event.page;
+    this.carregarAlunos();
   }
 
   alunoSelect(alunoId: number) {

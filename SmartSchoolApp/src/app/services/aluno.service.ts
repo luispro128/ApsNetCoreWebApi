@@ -18,8 +18,24 @@ export class AlunoService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(): Observable<Aluno[]> {
-    return this.http.get<Aluno[]>(this.baseURL);
+  getAll(page?:number, itemsPerPage?: number): Observable<PaginatedResult<Aluno[]>> {
+    const paginatedResult: PaginatedResult<Aluno[]> = new PaginatedResult<Aluno[]>();
+    let params = new HttpParams();
+    if(page != null && itemsPerPage != null){
+      params = params.append('pageNumber', page.toString());
+      params = params.append('pageSize', itemsPerPage.toString());
+    }
+    return this.http.get<Aluno[]>(this.baseURL, {observe: 'response', params})
+      .pipe(
+        map(
+          response => {
+            paginatedResult.result = response.body;
+            if(response.headers.get('Pagination') != null){
+              paginatedResult.pagination = JSON.parse(response.headers.get('Pagination'));
+            }
+            return paginatedResult;
+          })
+      );
   }
 
   getById(id: number): Observable<Aluno> {

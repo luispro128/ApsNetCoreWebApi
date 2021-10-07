@@ -21,6 +21,7 @@ import { ProfessorDetalheComponent } from './components/professores/professor-de
 import { ToastrModule} from 'ngx-toastr';
 import { NgxSpinnerModule} from 'ngx-spinner';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     ReactiveFormsModule,
     ModalModule.forRoot(),
     BsDropdownModule.forRoot(),
+    PaginationModule.forRoot(),
     NgxSpinnerModule,
     ToastrModule.forRoot({
       timeOut:3500,
@@ -52,7 +54,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
       preventDuplicates: true,
       progressBar: true,
       closeButton: true
-    })
+    }),
+    PaginationModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
